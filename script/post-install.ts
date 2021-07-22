@@ -45,33 +45,33 @@ function findYarnVersion(callback: (path: string) => void) {
 }
 
 findYarnVersion(path => {
-  let result = spawnSync(
-    'node',
-    [path, '--cwd', 'app', 'install', '--force'],
-    options
-  )
+  const installArgs = getYarnArgs([path, '--cwd', 'app', 'install', '--force'])
+
+  let result = spawnSync('node', installArgs, options)
 
   if (result.status !== 0) {
     process.exit(result.status || 1)
   }
 
-  result = spawnSync(
-    'git',
-    ['submodule', 'update', '--recursive', '--init'],
-    options
-  )
+  if (isOffline()) {
+    result = spawnSync(
+      'git',
+      ['submodule', 'update', '--recursive', '--init'],
+      options
+    )
+
+    if (result.status !== 0) {
+      process.exit(result.status || 1)
+    }
+  }
+
+  result = spawnSync('node', getYarnArgs([path, 'compile:tslint']), options)
 
   if (result.status !== 0) {
     process.exit(result.status || 1)
   }
 
-  result = spawnSync('node', [path, 'compile:tslint'], options)
-
-  if (result.status !== 0) {
-    process.exit(result.status || 1)
-  }
-
-  result = spawnSync('node', [path, 'compile:script'], options)
+  result = spawnSync('node', getYarnArgs([path, 'compile:script']), options)
 
   if (result.status !== 0) {
     process.exit(result.status || 1)
