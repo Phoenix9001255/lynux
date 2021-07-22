@@ -12,6 +12,22 @@ const options: SpawnSyncOptions = {
   stdio: 'inherit',
 }
 
+/** Check if the caller has set the OFFLINe environment variable */
+function isOffline() {
+  return process.env.OFFLINE === '1'
+}
+
+/** Format the arguments to ensure these work offline */
+function getYarnArgs(baseArgs: Array<string>): Array<string> {
+  const args = baseArgs
+
+  if (isOffline()) {
+    args.splice(1, 0, '--offline')
+  }
+
+  return args
+}
+
 function findYarnVersion(callback: (path: string) => void) {
   glob('vendor/yarn-*.js', (error, files) => {
     if (error != null) {
