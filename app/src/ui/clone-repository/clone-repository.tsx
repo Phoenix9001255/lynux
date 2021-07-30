@@ -562,15 +562,15 @@ export class CloneRepository extends React.Component<
     const lastParsedIdentifier = tabState.lastParsedIdentifier
 
     let newPath: string
-
+     //parsed.owner adds the repo owner to the path - helps while cloning 2 repos with same name but from different owners ( Primarily while Forking)
     if (lastParsedIdentifier) {
       if (parsed) {
-        newPath = Path.join(Path.dirname(tabState.path), parsed.name)
+        newPath = Path.join(Path.dirname(tabState.path),parsed.owner,parsed.name)
       } else {
         newPath = Path.dirname(tabState.path)
       }
     } else if (parsed) {
-      newPath = Path.join(tabState.path, parsed.name)
+      newPath = Path.join(tabState.path,parsed.owner,parsed.name)
     } else {
       newPath = tabState.path
     }
