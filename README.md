@@ -42,7 +42,7 @@ using the link in the header.
 First install our GPG certificate:
 
 ```sh
-$ wget -qO - https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
+$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
 ```
 
 To setup the package repository, run one of these commands:
@@ -66,17 +66,17 @@ $ sudo apt update && sudo apt install github-desktop
 First install our GPG certificate:
 
 ```sh
-$ sudo rpm --import https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C
+$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
 ```
 
 To setup the package repository, run one of these commands:
 
 ```sh
 # if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C" > /etc/yum.repos.d/shiftkey-desktop.repo'
+$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
 
 # if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C" > /etc/yum.repos.d/shiftkey-desktop.repo'
+$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
 ```
 
 Then install GitHub Desktop:
@@ -95,17 +95,17 @@ $ sudo dnf install github-desktop
 First install our GPG certificate:
 
 ```sh
-$ sudo rpm --import https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C
+$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
 ```
 
 To setup the package repository, run one of these commands:
 
 ```sh
 # if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C" > /etc/zypp/repos.d/shiftkey-desktop.repo'
+$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
 
 # if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://keys.openpgp.org/vks/v1/by-keyid/7650C43BBA3C3A2C" > /etc/zypp/repos.d/shiftkey-desktop.repo'
+$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
 ```
 
 Then install GitHub Desktop:
