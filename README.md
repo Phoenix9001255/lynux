@@ -122,6 +122,8 @@ Arch Linux users can install GitHub Desktop from the
 
 `gnome-keyring` is required and the daemon must be launched either at login or when the X server is started. Normally this is handled by a display manager, but in other cases following the instructions found on the [Arch Wiki](https://wiki.archlinux.org/index.php/GNOME/Keyring#Using_the_keyring_outside_GNOME) will fix the issue of not being able to save login credentials.
 
+GitHub Desktop is also available cross-platform as a [Flatpak](https://github.com/flathub/io.github.shiftey.Desktop) and [AppImage](https://appimage.github.io/GitHubDesktop/).
+
 ## Known issues
 
 If you're having troubles with Desktop, please refer to the [Known issues](docs/known-issues.md#linux)
