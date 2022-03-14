@@ -42,23 +42,23 @@ using the link in the header.
 First install our GPG certificate:
 
 ```sh
-$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
+wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
 ```
 
 To setup the package repository, run one of these commands:
 
 ```sh
 # if you want to use packagecloud.io
-$ sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
+sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
 
 # if you want to use the US mirror
-$ sudo sh -c 'echo "deb [arch=amd64] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
+sudo sh -c 'echo "deb [arch=amd64] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
 ```
 
 Then install GitHub Desktop:
 
 ```sh
-$ sudo apt update && sudo apt install github-desktop
+sudo apt update && sudo apt install github-desktop
 ```
 
 ### Red Hat/CentOS/Fedora distributions
@@ -66,27 +66,27 @@ $ sudo apt update && sudo apt install github-desktop
 First install our GPG certificate:
 
 ```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
+sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
 ```
 
 To setup the package repository, run one of these commands:
 
 ```sh
 # if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
 
 # if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
 ```
 
 Then install GitHub Desktop:
 
 ```sh
 # if yum is your package manager
-$ sudo yum install github-desktop
+sudo yum install github-desktop
 
 # if dnf is your package manager
-$ sudo dnf install github-desktop
+sudo dnf install github-desktop
 ```
 
 ### OpenSUSE distribution
@@ -95,24 +95,24 @@ $ sudo dnf install github-desktop
 First install our GPG certificate:
 
 ```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
+sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
 ```
 
 To setup the package repository, run one of these commands:
 
 ```sh
 # if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
 
 # if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
 ```
 
 Then install GitHub Desktop:
 
 ```sh
 # if zypper is your package manager
-$ sudo zypper ref && sudo zypper in github-desktop
+sudo zypper ref && sudo zypper in github-desktop
 ```
 
 ## Other Distributions
