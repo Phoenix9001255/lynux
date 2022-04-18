@@ -76,6 +76,10 @@ const editors: ILinuxExternalEditor[] = [
     paths: ['/usr/bin/gnome-text-editor'],
   },
   {
+    name: 'GNOME Builder',
+    paths: ['/usr/bin/gnome-builder'],
+  },
+  {
     name: 'Notepadqq',
     paths: ['/usr/bin/notepadqq'],
   },
