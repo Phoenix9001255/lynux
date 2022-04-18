@@ -68,8 +68,12 @@ const editors: ILinuxExternalEditor[] = [
     paths: ['/usr/bin/kate'],
   },
   {
-    name: 'GNOME Text Editor',
+    name: 'GEdit',
     paths: ['/usr/bin/gedit'],
+  },
+  {
+    name: 'GNOME Text Editor',
+    paths: ['/usr/bin/gnome-text-editor'],
   },
   {
     name: 'Notepadqq',
