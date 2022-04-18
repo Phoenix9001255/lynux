@@ -6,7 +6,7 @@ import { pathExists as pathExistsLinux, spawnShell } from '../helpers/linux'
 
 export enum Shell {
   Gnome = 'GNOME Terminal',
-  GnomeConsole = "Gnome Console",
+  GnomeConsole = 'Gnome Console',
   Mate = 'MATE Terminal',
   Tilix = 'Tilix',
   Terminator = 'Terminator',
