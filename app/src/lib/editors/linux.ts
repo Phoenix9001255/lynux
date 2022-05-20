@@ -99,6 +99,7 @@ const editors: ILinuxExternalEditor[] = [
   {
     name: 'IntelliJ PhpStorm',
     paths: ['/snap/bin/phpstorm'],
+  },
 ]
 
 async function getAvailablePath(paths: string[]): Promise<string | null> {
