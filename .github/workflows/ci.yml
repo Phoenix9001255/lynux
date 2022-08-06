@@ -40,6 +40,11 @@ jobs:
       # Needed for macOS arm64 until hosted macos-11.0 runners become available
       SDKROOT: /Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk
     steps:
+      - name: Identify user running on CI
+        id: who-am-i
+        if: ${{ matrix.os == 'ubuntu-18.04' && matrix.arch == 'x64' }}
+        run: whoami
+
       - uses: actions/checkout@v3
         with:
           submodules: recursive
