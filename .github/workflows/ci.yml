@@ -42,7 +42,7 @@ jobs:
     steps:
       - name: Identify user running on CI
         id: who-am-i
-        if: ${{ matrix.os == 'ubuntu-18.04' && matrix.arch == 'x64' }}
+        if: ${{ matrix.os == 'macos-10.15' }}
         run: whoami
 
       - uses: actions/checkout@v3
