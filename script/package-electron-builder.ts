@@ -9,6 +9,24 @@ const globPromise = promisify(glob)
 
 import { getDistPath, getDistRoot } from './dist-info'
 
+let arch_appimage = ''
+switch (process.arch) {
+  case 'x64':
+    console.log('This is an x86_64 system')
+    arch_appimage = '--x64'
+    break
+  case 'arm':
+    console.log('This is an ARM32 system')
+    arch_appimage = '--armv7l'
+    break
+  case 'arm64':
+    console.log('This is an ARM64 system')
+    arch_appimage = '--arm64'
+    break
+  default:
+    console.log('This architecture is unknown or not supported.')
+}
+
 export async function packageElectronBuilder(): Promise<Array<string>> {
   const distPath = getDistPath()
   const distRoot = getDistRoot()
@@ -27,7 +45,7 @@ export async function packageElectronBuilder(): Promise<Array<string>> {
     'build',
     '--prepackaged',
     distPath,
-    '--x64',
+    `${arch_appimage}`,
     '--config',
     configPath,
   ]

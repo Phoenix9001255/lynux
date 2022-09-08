@@ -11,12 +11,25 @@ import { getDistPath, getDistRoot } from './dist-info'
 
 const distRoot = getDistRoot()
 
+let arch_deb
+switch (process.arch) {
+  case 'x64':
+    arch_deb = 'amd64'
+    break
+  case 'arm':
+    arch_deb = 'armhf'
+    break
+  case 'arm64':
+    arch_deb = 'arm64'
+    break
+}
+
 // best guess based on documentation
 type DebianOptions = {
   // required
   src: string
   dest: string
-  arch: 'amd64' | 'i386' | 'arm64' | 'armhf'
+  arch: string
   // optional
   description?: string
   productDescription?: string
@@ -39,7 +52,7 @@ type DebianOptions = {
 const options: DebianOptions = {
   src: getDistPath(),
   dest: distRoot,
-  arch: 'amd64',
+  arch: `${arch_deb}`,
   description: 'Simple collaboration from your desktop',
   productDescription:
     'This is the unofficial port of GitHub Desktop for Linux distributions',

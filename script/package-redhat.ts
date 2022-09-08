@@ -11,12 +11,25 @@ import { getDistPath, getDistRoot } from './dist-info'
 
 const distRoot = getDistRoot()
 
+let arch_rpm = ''
+switch (process.arch) {
+  case 'x64':
+    arch_rpm = 'x86_64'
+    break
+  case 'arm':
+    arch_rpm = 'armv7l'
+    break
+  case 'arm64':
+    arch_rpm = 'aarch64'
+    break
+}
+
 // best guess based on documentation
 type RedhatOptions = {
   // required
   src: string
   dest: string
-  arch: 'x86_64'
+  arch: string
   // optional
   description?: string
   productDescription?: string
@@ -36,7 +49,7 @@ type RedhatOptions = {
 const options: RedhatOptions = {
   src: getDistPath(),
   dest: distRoot,
-  arch: 'x86_64',
+  arch: `${arch_rpm}`,
   description: 'Simple collaboration from your desktop',
   productDescription:
     'This is the unofficial port of GitHub Desktop for Linux distributions',
