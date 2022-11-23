@@ -44,8 +44,11 @@ using the link in the header.
 ```sh
 chmod 544 install.sh
 
-sudo ./install.sh pc # PackageCloud
-sudo ./install.sh usm # US mirror
+# if you want to use packagecloud.io
+sudo ./install.sh pc
+
+# if you want to use the US mirror
+sudo ./install.sh usm
 ```
 
 ## Other Distributions
