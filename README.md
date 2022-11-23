@@ -15,9 +15,9 @@ This repository contains specific patches on top of the upstream
 
 It also hosts preview packages for various Linux distributions:
 
-- AppImage (`.AppImage`)
-- Debian (`.deb`)
-- RPM (`.rpm`)
+ - AppImage (`.AppImage`)
+ - Debian (`.deb`)
+ - RPM (`.rpm`)
 
 Check out the [latest releases](https://github.com/shiftkey/desktop/releases) to
 help out with testing on your distribution.
@@ -27,10 +27,10 @@ help out with testing on your distribution.
 You can use your operating system's package manager to install `github-desktop` and
 keep it up to date on Debian/RPM based distributions. There are two options for this:
 
-- A [PackageCloud](https://packagecloud.io/) repository with excellent global connectivity
+* A [PackageCloud](https://packagecloud.io/) repository with excellent global connectivity
   but very limited bandwidth. This option will stop working each month when the bandwidth
   limit is reached.
-- A [mirror](https://mattwthomas.com/mirrors/) in the US which has effectively infinite
+* A [mirror](https://mattwthomas.com/mirrors/) in the US which has effectively infinite
   bandwidth and performs well in most regions (especially the Americas and Europe).
 
 PackageCloud, which both options depend on, is not a free service. So, if you can afford to
