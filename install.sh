@@ -66,8 +66,7 @@ if command -v apt >/dev/null; then
 
 	fi
 
-	DEBIAN_ARCH=$(dpkg --print-architecture)
-	echo "deb [arch=$DEBIAN_ARCH signed-by=$GPG_KEY_PATH by-hash=force] $DEB_REPO" > "$APTLIST_PATH"
+	echo "deb [arch=amd64 signed-by=$GPG_KEY_PATH by-hash=force] $DEB_REPO" > "$APTLIST_PATH"
 
 	apt update
 	apt install "$PACK_NAME"
