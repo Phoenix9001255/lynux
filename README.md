@@ -15,9 +15,9 @@ This repository contains specific patches on top of the upstream
 
 It also hosts preview packages for various Linux distributions:
 
- - AppImage (`.AppImage`)
- - Debian (`.deb`)
- - RPM (`.rpm`)
+- AppImage (`.AppImage`)
+- Debian (`.deb`)
+- RPM (`.rpm`)
 
 Check out the [latest releases](https://github.com/shiftkey/desktop/releases) to
 help out with testing on your distribution.
@@ -27,92 +27,25 @@ help out with testing on your distribution.
 You can use your operating system's package manager to install `github-desktop` and
 keep it up to date on Debian/RPM based distributions. There are two options for this:
 
-* A [PackageCloud](https://packagecloud.io/) repository with excellent global connectivity
+- A [PackageCloud](https://packagecloud.io/) repository with excellent global connectivity
   but very limited bandwidth. This option will stop working each month when the bandwidth
   limit is reached.
-* A [mirror](https://mattwthomas.com/mirrors/) in the US which has effectively infinite
+- A [mirror](https://mattwthomas.com/mirrors/) in the US which has effectively infinite
   bandwidth and performs well in most regions (especially the Americas and Europe).
 
 PackageCloud, which both options depend on, is not a free service. So, if you can afford to
 help with these costs please [**Sponsor**](https://github.com/sponsors/shiftkey) the project
 using the link in the header.
 
-### Debian/Ubuntu distributions
+### Quick install
 
-First install our GPG certificate:
-
-```sh
-$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/shiftkey-desktop.asc > /dev/null
-```
-
-To setup the package repository, run one of these commands:
+[This script](install.sh) will install GHD on your OS, as long as you have at least 1 of these package managers: apt, rpm, yum, dnf, zypper. This means it is compatible with distros based on: Debian/Ubuntu, Red Hat/CentOS/Fedora, and OpenSUSE.
 
 ```sh
-# if you want to use packagecloud.io
-$ sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/shiftkey/desktop/any/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
+chmod 544 install.sh
 
-# if you want to use the US mirror
-$ sudo sh -c 'echo "deb [arch=amd64] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list'
-```
-
-Then install GitHub Desktop:
-
-```sh
-$ sudo apt update && sudo apt install github-desktop
-```
-
-### Red Hat/CentOS/Fedora distributions
-
-First install our GPG certificate:
-
-```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
-```
-
-To setup the package repository, run one of these commands:
-
-```sh
-# if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
-
-# if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/shiftkey-desktop.repo'
-```
-
-Then install GitHub Desktop:
-
-```sh
-# if yum is your package manager
-$ sudo yum install github-desktop
-
-# if dnf is your package manager
-$ sudo dnf install github-desktop
-```
-
-### OpenSUSE distribution
-
-
-First install our GPG certificate:
-
-```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
-```
-
-To setup the package repository, run one of these commands:
-
-```sh
-# if you want to use packagecloud.io
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://packagecloud.io/shiftkey/desktop/el/7/\$basearch\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
-
-# if you want to use the US mirror
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/zypp/repos.d/shiftkey-desktop.repo'
-```
-
-Then install GitHub Desktop:
-
-```sh
-# if zypper is your package manager
-$ sudo zypper ref && sudo zypper in github-desktop
+sudo ./install.sh pc # PackageCloud
+sudo ./install.sh usm # US mirror
 ```
 
 ## Other Distributions
