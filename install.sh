@@ -1,10 +1,9 @@
 #!/usr/bin/env sh
 set -e
 
-# sub-commands
 HELP_CMD='help'
-PC='pc'
-USM='usm'
+PC_CMD='pc'
+USM_CMD='usm'
 
 DISPLAY_NAME='GitHub Desktop'
 APP_NAME='shiftkey-desktop'
@@ -18,15 +17,15 @@ GPG_KEY="${USM_ROOT}gpgkey"
 HELP_MSG="$DISPLAY_NAME installer.
 sub-commands:
 	$HELP_CMD: prints this text and exits
-	$PC: install from packagecloud.io repo
-	$USM: install from mirror.mwt.me repo (US mirror)"
+	$PC_CMD: install from packagecloud.io repo
+	$USM_CMD: install from mirror.mwt.me repo (US mirror)"
 
 OK_MSG='DONE!'
 
-if [ "$1" = "$PC" ]; then
+if [ "$1" = "$PC_CMD" ]; then
 	DEB_URL="${PC_ROOT}any"
 	RPM_URL="${PC_ROOT}el/7/\$basearch"
-elif [ "$1" = "$USM" ]; then
+elif [ "$1" = "$USM_CMD" ]; then
 	DEB_URL="${USM_ROOT}deb"
 	RPM_URL="${USM_ROOT}rpm"
 elif [ "$1" = "$HELP_CMD" ]; then
