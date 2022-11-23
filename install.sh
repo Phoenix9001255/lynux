@@ -3,8 +3,8 @@ set -e
 
 # sub-commands
 HELP_CMD='help'
-PC='packagecloud'
-USM='US-mirror'
+PC='pc'
+USM='usm'
 
 DISPLAY_NAME='GitHub Desktop'
 APP_NAME='shiftkey-desktop'
@@ -15,6 +15,12 @@ USM_ROOT='https://mirror.mwt.me/ghd/'
 
 GPG_KEY="${USM_ROOT}gpgkey"
 
+HELP_MSG="$DISPLAY_NAME installer.
+sub-commands:
+	$HELP_CMD: prints this text and exits
+	$PC: install from packagecloud.io repo
+	$USM: install from mirror.mwt.me repo (US mirror)"
+
 OK_MSG='DONE!'
 
 if [ "$1" = "$PC" ]; then
@@ -24,16 +30,10 @@ elif [ "$1" = "$USM" ]; then
 	DEB_URL="${USM_ROOT}deb"
 	RPM_URL="${USM_ROOT}rpm"
 elif [ "$1" = "$HELP_CMD" ]; then
-	echo "\
-		$DISPLAY_NAME installer.\
-		sub-commands\
-		$HELP_CMD: prints this text and exits\
-		$PC: install from packagecloud.io repo\
-		$USM: install from mirror.mwt.me repo\
-	"
+	echo "$HELP_MSG"
 	exit 0
 else
-	echo "invalid sub-cmd. Run \`$0 $HELP_CMD\` for more info"
+	echo "Invalid sub-cmd. Run \`$0 $HELP_CMD\` for more info."
 	exit 1
 fi
 
@@ -47,7 +47,7 @@ repo_gpgcheck=1
 gpgkey=$GPG_KEY"
 
 
-if [ -n "$DEB_REPO" ] && command -v apt >/dev/null; then
+if command -v apt >/dev/null; then
 	GPG_KEY_PATH="/usr/share/keyrings/$APP_NAME.asc"
 	APTLIST_PATH="/etc/apt/sources.list.d/$APP_NAME.list"
 
@@ -76,7 +76,7 @@ if [ -n "$DEB_REPO" ] && command -v apt >/dev/null; then
 	echo "$OK_MSG"
 	exit 0
 
-elif [ -n "$RPM_REPO" ]; then
+else
 
 	if command -v dnf >/dev/null || command -v yum >/dev/null; then
 		echo 'YUM/DNF detected. Installing YUM repository.'
@@ -94,11 +94,20 @@ elif [ -n "$RPM_REPO" ]; then
 
 	rpm --import "$GPG_KEY"
 	echo "$RPM_REPO" > "$RPMLIST_PATH"
+
+	if command -v yum >/dev/null; then
+		yum install "$PACK_NAME"
+
+	elif command -v dnf >/dev/null; then
+		dnf install "$PACK_NAME"
+
+	else
+		zypper ref
+		zypper in "$PACK_NAME"
+
+	fi
+
 	echo "$OK_MSG"
 	exit 0
-
-else
-	echo 'FAILED: No supported package manager found.'
-	exit 1
 
 fi
