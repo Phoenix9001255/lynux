@@ -127,12 +127,19 @@ $ sudo zypper ref && sudo zypper in github-desktop
 
 ## Other Distributions
 
-Arch Linux users can install GitHub Desktop from the
-[AUR](https://aur.archlinux.org/packages/github-desktop-bin/).
+### Arch Linux
+
+Arch Linux users can install GitHub Desktop from the [AUR](https://aur.archlinux.org/packages/github-desktop-bin/).
 
 `gnome-keyring` is required and the daemon must be launched either at login or when the X server is started. Normally this is handled by a display manager, but in other cases following the instructions found on the [Arch Wiki](https://wiki.archlinux.org/index.php/GNOME/Keyring#Using_the_keyring_outside_GNOME) will fix the issue of not being able to save login credentials.
 
+### Cross-Distribution
+
 GitHub Desktop is also available cross-platform as a [Flatpak](https://github.com/flathub/io.github.shiftey.Desktop) and [AppImage](https://appimage.github.io/GitHubDesktop/).
+
+### deb-get
+
+Debian/Ubuntu users can also install directly from this repository using [`deb-get`](https://github.com/wimpysworld/deb-get): `deb-get install github-desktop`.
 
 ## Known issues
 
