@@ -239,16 +239,15 @@ for the new settings.
 #### APT configuration
 
 ```
-$ sudo rm /etc/apt/trusted.gpg.d/shiftkey-desktop.asc
-$ sudo rm /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list
+sudo rm /etc/apt/trusted.gpg.d/shiftkey-desktop.asc
+sudo rm /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list
 ```
 
 #### RPM configuration
 
 ```
-$ sudo rm /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list
+sudo rm /etc/apt/sources.list.d/packagecloud-shiftkey-desktop.list
 ```
-
 
 ### I get a white screen when launching Desktop
 
