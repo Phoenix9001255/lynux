@@ -34,7 +34,7 @@ It also publishes [releases](https://github.com/shiftkey/desktop/releases) for v
 You can use your operating system's package manager to install `github-desktop` and
 keep it up to date on Debian and RPM-based distributions.
 
-### Debian/Ubuntu users
+### Debian/Ubuntu
 
 There are two APT package feeds available, both hosted in the US. You only need
 to add one or the other here, as both of these are generated based on the
@@ -62,7 +62,7 @@ Once you have a feed configured, run this command to install the application:
 sudo apt update && sudo apt install github-desktop
 ```
 
-## Red Hat/CentOS/Fedora users
+## Red Hat/CentOS/Fedora/OpenSUSE
 
 There are two RPM package feeds available, both hosted in the US. You only need
 to add one or the other here, as both of these are generated based on the
@@ -92,33 +92,8 @@ sudo yum install github-desktop
 
 # if dnf is your package manager
 sudo dnf install github-desktop
-```
 
-## OpenSUSE users
-
-There are two RPM package feeds available, both hosted in the US. You only need
-to add one or the other here, as both of these are generated based on the
-releases from this repository.
-
-### [@shiftkey](https://github.com/shiftkey) package feed
-
-```
-sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
-sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
-```
-
-### [@mwt](https://github.com/mwt) package feed
-
-```sh
-sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
-sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/mwt-packages.repo'
-```
-
-### Installation
-
-Once you have a feed configured, run this command to install the application:
-
-```sh
+# if zypper is your package manager
 sudo zypper ref && sudo zypper in github-desktop
 ```
 
