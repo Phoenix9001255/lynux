@@ -43,15 +43,15 @@ releases from this repository.
 #### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/shiftkey-packages.asc > /dev/null
-$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list'
+wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/shiftkey-packages.asc > /dev/null
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list'
 ```
 
 #### [@mwt](https://github.com/mwt) package feed
 
 ```sh
-$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | gpg --dearmor | sudo tee /etc/apt/keyrings/mwt-desktop.asc > /dev/null
-$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-desktop.list'
+wget -qO - https://mirror.mwt.me/ghd/gpgkey | gpg --dearmor | sudo tee /etc/apt/keyrings/mwt-desktop.asc > /dev/null
+sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-desktop.list'
 ```
 
 #### Installation
@@ -59,7 +59,7 @@ $ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg]
 Once you have a feed configured, run this command to install the application:
 
 ```sh
-$ sudo apt update && sudo apt install github-desktop
+sudo apt update && sudo apt install github-desktop
 ```
 
 ## Red Hat/CentOS/Fedora users
@@ -71,15 +71,15 @@ releases from this repository.
 ### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
-$ sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
+sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
+sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
 ```
 
 ### [@mwt](https://github.com/mwt) package feed
 
 ```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/mwt-packages-desktop.repo'
+sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/mwt-packages-desktop.repo'
 ```
 
 ### Installation
@@ -88,10 +88,10 @@ Once you have a feed configured, run this command to install the application:
 
 ```sh
 # if yum is your package manager
-$ sudo yum install github-desktop
+sudo yum install github-desktop
 
 # if dnf is your package manager
-$ sudo dnf install github-desktop
+sudo dnf install github-desktop
 ```
 
 ## OpenSUSE users
@@ -103,15 +103,15 @@ releases from this repository.
 ### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
-$ sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
+sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
+sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
 ```
 
 ### [@mwt](https://github.com/mwt) package feed
 
 ```sh
-$ sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
-$ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/mwt-packages.repo'
+sudo rpm --import https://mirror.mwt.me/ghd/gpgkey
+sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.mwt.me/ghd/rpm\nenabled=1\ngpgcheck=0\nrepo_gpgcheck=1\ngpgkey=https://mirror.mwt.me/ghd/gpgkey" > /etc/yum.repos.d/mwt-packages.repo'
 ```
 
 ### Installation
@@ -119,7 +119,7 @@ $ sudo sh -c 'echo -e "[shiftkey]\nname=GitHub Desktop\nbaseurl=https://mirror.m
 Once you have a feed configured, run this command to install the application:
 
 ```sh
-$ sudo zypper ref && sudo zypper in github-desktop
+sudo zypper ref && sudo zypper in github-desktop
 ```
 
 ## Other Distributions
