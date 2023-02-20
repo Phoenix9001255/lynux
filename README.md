@@ -54,7 +54,7 @@ $ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/shiftkey-package
 
 ```sh
 $ wget -qO - https://mirror.mwt.me/ghd/gpgkey | gpg --dearmor | sudo tee /etc/apt/keyrings/mwt-desktop.asc > /dev/null
-$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-packages-desktop.list'
+$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-desktop.list'
 ```
 
 #### Installation
@@ -74,7 +74,7 @@ releases from this repository.
 ### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ sudo rpm --import https://apt.packages.shiftkey.dev/gpg.key
+$ sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
 $ sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
 ```
 
