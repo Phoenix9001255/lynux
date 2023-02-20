@@ -46,15 +46,15 @@ releases from this repository.
 #### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ wget -qO - https://apt.packages.shiftkey.dev/gpg.key | sudo tee /etc/apt/trusted.gpg.d/shiftkey-packages.asc > /dev/null
-$ sudo sh -c 'echo "deb [arch=amd64] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages-desktop.list'
+$ wget -qO - https://apt.packages.shiftkey.dev/gpg.key | gpg --dearmor | sudo tee /etc/apt/keyrings/shiftkey-packages.asc > /dev/null
+$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/shiftkey-packages.gpg] https://apt.packages.shiftkey.dev/ubuntu/ any main" > /etc/apt/sources.list.d/shiftkey-packages.list'
 ```
 
 #### [@mwt](https://github.com/mwt) package feed
 
 ```sh
-$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | sudo tee /etc/apt/trusted.gpg.d/mwt-desktop.asc > /dev/null
-$ sudo sh -c 'echo "deb [arch=amd64] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-packages-desktop.list'
+$ wget -qO - https://mirror.mwt.me/ghd/gpgkey | gpg --dearmor | sudo tee /etc/apt/keyrings/mwt-desktop.asc > /dev/null
+$ sudo sh -c 'echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/mwt-desktop.gpg] https://mirror.mwt.me/ghd/deb/ any main" > /etc/apt/sources.list.d/mwt-packages-desktop.list'
 ```
 
 #### Installation
