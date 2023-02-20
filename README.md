@@ -23,7 +23,7 @@ uses [React](https://reactjs.org/).
 This repository contains specific patches on top of the upstream
 `desktop/desktop` repository to support Linux usage.
 
-It also hosts preview packages for various Linux distributions:
+It also publishes releases for various Linux distributions:
 
  - AppImage (`.AppImage`)
  - Debian (`.deb`)
@@ -35,9 +35,9 @@ help out with testing on your distribution.
 ## Installation via package manager
 
 You can use your operating system's package manager to install `github-desktop` and
-keep it up to date on Debian/RPM based distributions.
+keep it up to date on Debian and RPM-based distributions.
 
-### Setup for Debian/Ubuntu users
+### Debian/Ubuntu users
 
 There are two APT package feeds available, both hosted in the US. You only need
 to add one or the other here, as both of these are generated based on the
@@ -65,7 +65,7 @@ Once you have a feed configured, run this command to install the application:
 $ sudo apt update && sudo apt install github-desktop
 ```
 
-## Setup for Red Hat/CentOS/Fedora users
+## Red Hat/CentOS/Fedora users
 
 There are two RPM package feeds available, both hosted in the US. You only need
 to add one or the other here, as both of these are generated based on the
@@ -97,7 +97,7 @@ $ sudo yum install github-desktop
 $ sudo dnf install github-desktop
 ```
 
-## Setup for OpenSUSE users
+## OpenSUSE users
 
 There are two RPM package feeds available, both hosted in the US. You only need
 to add one or the other here, as both of these are generated based on the
