@@ -23,14 +23,11 @@ uses [React](https://reactjs.org/).
 This repository contains specific patches on top of the upstream
 `desktop/desktop` repository to support Linux usage.
 
-It also publishes releases for various Linux distributions:
+It also publishes [releases](https://github.com/shiftkey/desktop/releases) for various Linux distributions:
 
  - AppImage (`.AppImage`)
  - Debian (`.deb`)
  - RPM (`.rpm`)
-
-Check out the [latest releases](https://github.com/shiftkey/desktop/releases) to
-help out with testing on your distribution.
 
 ## Installation via package manager
 
@@ -106,7 +103,7 @@ releases from this repository.
 ### [@shiftkey](https://github.com/shiftkey) package feed
 
 ```
-$ sudo rpm --import https://apt.packages.shiftkey.dev/gpg.key
+$ sudo rpm --import https://rpm.packages.shiftkey.dev/gpg.key
 $ sudo sh -c 'echo -e "[shiftkey-packages]\nname=GitHub Desktop\nbaseurl=https://rpm.packages.shiftkey.dev/rpm/\nenabled=1\ngpgcheck=1\nrepo_gpgcheck=1\ngpgkey=https://rpm.packages.shiftkey.dev/gpg.key" > /etc/yum.repos.d/shiftkey-packages.repo'
 ```
 
