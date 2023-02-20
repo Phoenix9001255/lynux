@@ -32,7 +32,7 @@ It also hosts preview packages for various Linux distributions:
 Check out the [latest releases](https://github.com/shiftkey/desktop/releases) to
 help out with testing on your distribution.
 
-## Package Feeds
+## Installation via package manager
 
 You can use your operating system's package manager to install `github-desktop` and
 keep it up to date on Debian/RPM based distributions.
