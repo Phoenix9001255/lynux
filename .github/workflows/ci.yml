@@ -130,9 +130,12 @@ jobs:
           sudo npm install --global yarn
       # This step can be removed as soon as official Windows arm64 builds are published:
       # https://github.com/nodejs/build/issues/2450#issuecomment-705853342
+      #
+      # This version is pinned to 18.16.0 as the later version does not have the required
+      # `win-arm64/node.lib` output that we can consume in this CI build.
       - name: Get NodeJS node-gyp lib for Windows arm64
         if: ${{ matrix.os == 'windows-2019' && matrix.arch == 'arm64' }}
-        run: .\script\download-nodejs-win-arm64.ps1 ${{ matrix.node }}
+        run: .\script\download-nodejs-win-arm64.ps1 18.16.0
       - name: Get app version
         id: version
         run: echo version=$(jq -r ".version" app/package.json) >> $GITHUB_OUTPUT
