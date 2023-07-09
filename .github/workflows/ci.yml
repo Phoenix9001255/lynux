@@ -233,7 +233,7 @@ jobs:
 
       - name: Generate release notes
         run: |
-          npm ci
+          yarn
           node -r ts-node/register script/generate-release-notes.ts "${{ github.workspace }}/artifacts"
           RELEASE_NOTES_FILE=script/release_notes.txt
           if [[ ! -f "$RELEASE_NOTES_FILE" ]]; then
