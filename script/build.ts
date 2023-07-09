@@ -3,7 +3,7 @@
 
 import * as path from 'path'
 import * as cp from 'child_process'
-import packager, { OfficialArch, OsxNotarizeOptions } from 'electron-packager'
+import packager, { OsxNotarizeOptions } from 'electron-packager'
 import frontMatter from 'front-matter'
 import { externals } from '../app/webpack.common'
 
@@ -130,10 +130,10 @@ function packageApp() {
     )
   }
 
-  const getPackageArch = (): OfficialArch => {
+  const getPackageArch = (): 'arm64' | 'x64' | 'armv7l' => {
     const arch = process.env.npm_config_arch || process.arch
 
-    if (arch === 'arm64' || arch === 'x64' || arch === 'armv7l') {
+    if (arch === 'arm64' || arch === 'x64') {
       return arch
     }
 
