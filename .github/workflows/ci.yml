@@ -119,8 +119,11 @@ jobs:
       - name: Install unofficial-builds Node.js ${{ matrix.node }} on Ubuntu
         if: matrix.friendlyName == 'Ubuntu'
         run: |
-          # this version supports older GLIBC (official builds required a minimum of GLIBC 2.28)
-          # this will likely break if you bump the `matrix.node` version - need to explore options here
+          # This version supports older GLIBC (official builds required a minimum of GLIBC 2.28)
+          # this might break if you bump the `matrix.node` version - ensure you are on the latest version
+          # of which ever major/minor release which should have this variant available
+          # 
+          # See https://github.com/nodejs/unofficial-builds/ for more information on these versions.
           #
           curl -sL 'https://unofficial-builds.nodejs.org/download/release/v${{ matrix.node }}/node-v${{ matrix.node }}-linux-x64-glibc-217.tar.xz' | xzcat | sudo tar -vx  --strip-components=1 -C /usr/local/
           sudo npm install --global yarn
