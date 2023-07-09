@@ -210,7 +210,6 @@ jobs:
   publish:
     name: Create GitHub release
     needs: [build, lint]
-    if: matrix.friendlyName == 'Ubuntu' # && contains(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     permissions:
       contents: write
