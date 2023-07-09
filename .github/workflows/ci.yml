@@ -196,20 +196,6 @@ jobs:
       - name: Package application
         run: yarn run package
         if: ${{ matrix.friendlyName == 'Ubuntu' }}
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        if:
-          ${{ matrix.friendlyName == 'Ubuntu' && startsWith(github.ref,
-          'refs/tags/') }}
-        with:
-          files: |
-            dist/*.AppImage
-            dist/*.deb
-            dist/*.rpm
-            dist/*.txt
-          draft: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload output artifacts
         uses: actions/upload-artifact@v3
         if: matrix.friendlyName == 'Ubuntu'
@@ -220,3 +206,55 @@ jobs:
             dist/*.deb
             dist/*.rpm
           retention-days: 5
+
+  publish:
+    name: Create GitHub release
+    needs: [build, lint]
+    if: matrix.friendlyName == 'Ubuntu' # && contains(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v2
+        with:
+          path: './artifacts'
+
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: './artifacts'
+
+      # TODO: generate release notes
+      #    - pull in default if version matches X.Y.Z-linux1
+      #    - otherwise stub template
+      #    - include checksums of files
+      #    - format versions by architecture
+
+      - name: Generate release notes
+        run: |
+          npm ci
+          node -r ts-node/register script/generate-release-notes.ts "${{ github.workspace }}/artifacts"
+          RELEASE_NOTES_FILE=script/release_notes.txt
+          if [[ ! -f "$RELEASE_NOTES_FILE" ]]; then
+              echo "$RELEASE_NOTES_FILE does not exist. Something might have gone wrong while generating the release notes."
+              exit 1
+          fi
+          echo "Release notes:"
+          echo "---"
+          cat ${RELEASE_NOTES_FILE}
+          echo "---"
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        if: contains(github.ref, 'refs/tags/')
+        with:
+          files: |
+            artifacts/*.AppImage
+            artifacts/*.deb
+            artifacts/*.rpm
+            artifacts/*.txt
+          draft: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
