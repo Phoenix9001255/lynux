@@ -79,6 +79,7 @@ jobs:
       LD: ${{ matrix.environment.LD }}
       FC: ${{ matrix.environment.FC }}
       PKG_CONFIG_PATH: ${{ matrix.environment.PKG_CONFIG_PATH }}
+      npm_config_arch: ${{ matrix.arch }}
     steps:
       - name: Install dependencies into dockerfile on Ubuntu
         if: matrix.friendlyName == 'Ubuntu'
@@ -137,12 +138,8 @@ jobs:
         run: echo version=$(jq -r ".version" app/package.json) >> $GITHUB_OUTPUT
       - name: Install and build dependencies
         run: yarn
-        env:
-          npm_config_arch: ${{ matrix.arch }}
       - name: Build production app
         run: yarn build:prod
-        env:
-          npm_config_arch: ${{ matrix.arch }}
       - name: Prepare testing environment
         if: matrix.arch == 'x64'
         run: yarn test:setup
@@ -155,8 +152,6 @@ jobs:
       - name: Package application
         run: yarn run package
         if: ${{ matrix.friendlyName == 'Ubuntu' }}
-        env:
-          npm_config_arch: ${{ matrix.arch }}
       - name: Create Release
         uses: softprops/action-gh-release@v1
         if:
