@@ -144,6 +144,10 @@ function packageApp() {
       return targetArch
     }
 
+    if (targetArch === 'arm') {
+      return 'armv7l'
+    }
+
     throw new Error(
       `Building Desktop for architecture '${targetArch}' is not supported`
     )
@@ -175,7 +179,7 @@ function packageApp() {
   return packager({
     name: getExecutableName(),
     platform: toPackagePlatform(process.platform),
-    arch: toPackageArch(process.env.TARGET_ARCH),
+    arch: toPackageArch(process.env.npm_config_arch),
     asar: false, // TODO: Probably wanna enable this down the road.
     out: getDistRoot(),
     icon,
