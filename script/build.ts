@@ -142,7 +142,7 @@ function packageApp() {
     }
 
     throw new Error(
-      `Building Desktop for architecture '${arch}' is not supported`
+      `Building Desktop for architecture '${arch}' is not supported. Currently these architectures are supported: arm, arm64, x64`
     )
   }
 
