@@ -212,6 +212,7 @@ jobs:
     name: Create GitHub release
     needs: [build, lint]
     runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') }}
     permissions:
       contents: write
     steps:
@@ -226,16 +227,21 @@ jobs:
         run: ls -R
         working-directory: './artifacts'
 
+      - name: Get tag name without prefix
+        run: |
+          RELEASE_TAG=${GITHUB_REF/refs\/tags\//}
+          echo "RELEASE_TAG=${RELEASE_TAG}" >> $GITHUB_ENV
+          tagNameWithoutPrefix="${RELEASE_TAG:1}"
+          echo "RELEASE_TAG_WITHOUT_PREFIX=${tagNameWithoutPrefix}" >> $GITHUB_ENV
+
       # TODO: generate release notes
       #    - pull in default if version matches X.Y.Z-linux1
       #    - otherwise stub template
-      #    - include checksums of files
-      #    - format versions by architecture
 
       - name: Generate release notes
         run: |
           yarn
-          node -r ts-node/register script/generate-release-notes.ts "${{ github.workspace }}/artifacts"
+          node -r ts-node/register script/generate-release-notes.ts "${{ github.workspace }}/artifacts" "${{ RELEASE_TAG_WITHOUT_PREFIX }}"
           RELEASE_NOTES_FILE=script/release_notes.txt
           if [[ ! -f "$RELEASE_NOTES_FILE" ]]; then
               echo "$RELEASE_NOTES_FILE does not exist. Something might have gone wrong while generating the release notes."
@@ -245,16 +251,19 @@ jobs:
           echo "---"
           cat ${RELEASE_NOTES_FILE}
           echo "---"
+          echo 'LINUX_RELEASE_NOTES<<EOF' >> $GITHUB_ENV
+          cat ${LINUX_RELEASE_NOTES} >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        if: contains(github.ref, 'refs/tags/')
+        release_name: GitHub Desktop for Linux ${{ env.RELEASE_TAG_WITHOUT_PREFIX }}
+        body: ${{ env.LINUX_RELEASE_NOTES }}
         with:
           files: |
             artifacts/*.AppImage
             artifacts/*.deb
             artifacts/*.rpm
-            artifacts/*.txt
           draft: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

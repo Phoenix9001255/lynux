@@ -16,6 +16,21 @@ const Glob = glob.GlobSync
 const args = process.argv.slice(2)
 const artifactsDir = args[0]
 
+if (!artifactsDir) {
+  console.error(
+    `🔴 First parameter with artifacts directory not found. Aborting...`
+  )
+  process.exit(1)
+}
+
+const releaseTagWithoutPrefix = args[1]
+if (!releaseTagWithoutPrefix) {
+  console.error(`🔴 Second parameter with release tag not found. Aborting...`)
+  process.exit(1)
+}
+
+console.log(`Preparing release notes for release tag ${releaseTagWithoutPrefix}`)
+
 const files = new Glob(artifactsDir + '/**/*', { nodir: true })
 
 let countFiles = 0
