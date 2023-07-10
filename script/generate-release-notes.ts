@@ -1,16 +1,25 @@
+/* eslint-disable no-sync */
+
 const glob = require('glob')
 const { basename } = require('path')
 const fs = require('fs')
 
-// eslint-disable-next-line no-sync
+type ChecksumEntry = { filename: string; checksum: string }
+
+type ChecksumGroups = Record<'x64' | 'arm' | 'arm64', Array<ChecksumEntry>>
+
+// 3 architectures * 3 package formats * 2 files (package + checksum file) 
+const SUCCESSFUL_RELEASE_FILE_COUNT = 3 * 3 * 2
+
 const Glob = glob.GlobSync
 
 const args = process.argv.slice(2)
 const artifactsDir = args[0]
 
 const files = new Glob(artifactsDir + '/**/*', { nodir: true })
+
 let countFiles = 0
-const shaEntries: Array<{ filename: string; checksum: string }> = []
+const shaEntries = new Array<ChecksumEntry>()
 
 for (const file of files.found) {
   if (file.endsWith('.sha256')) {
@@ -20,13 +29,25 @@ for (const file of files.found) {
   countFiles++
 }
 
-console.log(`Found ${countFiles} files in artifacts directory`)
-console.log(shaEntries)
+if (SUCCESSFUL_RELEASE_FILE_COUNT !== countFiles) {
+  console.error(
+    `🔴 Artifacts folder has ${countFiles} assets, expecting ${SUCCESSFUL_RELEASE_FILE_COUNT}. Please check the GH Actions artifacts to see which are missing.`
+  )
+  process.exit(1)
+}
 
-const draftReleaseNotes = generateDraftReleaseNotes([], shaEntries)
+const shaEntriesByArchitecture: ChecksumGroups = {
+  x64: shaEntries.filter(e => e.filename.includes("-linux-x86_64-") || e.filename.includes("-linux-amd64-")),
+  arm: shaEntries.filter(e => e.filename.includes("-linux-armv71-") || e.filename.includes("-linux-armhf-")),
+  arm64: shaEntries.filter(e => e.filename.includes("-linux-aarch64-") || e.filename.includes("-linux-arm64-"))
+}
+
+console.log(`Found ${countFiles} files in artifacts directory`)
+console.log(shaEntriesByArchitecture)
+
+const draftReleaseNotes = generateDraftReleaseNotes([], shaEntriesByArchitecture)
 const releaseNotesPath = __dirname + '/release_notes.txt'
 
-// eslint-disable-next-line no-sync
 fs.writeFileSync(releaseNotesPath, draftReleaseNotes, { encoding: 'utf8' })
 
 console.log(
@@ -41,10 +62,13 @@ function getShaContents(filePath: string): {
   checksum: string
 } {
   const filename = basename(filePath).slice(0, -7)
-  // eslint-disable-next-line no-sync
   const checksum = fs.readFileSync(filePath, 'utf8')
 
   return { filename, checksum }
+}
+
+function formatEntry(e: ChecksumEntry): string {
+  return `**${e.filename}**\n${e.checksum}\n`
 }
 
 /**
@@ -52,18 +76,29 @@ function getShaContents(filePath: string): {
  */
 function generateDraftReleaseNotes(
   releaseNotesEntries: Array<string>,
-  shaEntries: Array<{ filename: string; checksum: string }>
+  shaEntries: ChecksumGroups
 ): string {
   const changelogText = releaseNotesEntries.join('\n')
 
-  const fileList = shaEntries.map(e => `**${e.filename}**\n${e.checksum}\n`)
-  const fileListText = fileList.join('\n')
+  const x64Section = shaEntries.x64.map(formatEntry).join('\n');
+  const armSection = shaEntries.arm.map(formatEntry).join('\n');
+  const arm64Section = shaEntries.arm64.map(formatEntry).join('\n');
 
   const draftReleaseNotes = `${changelogText}
 
-## SHA-256 hashes:
+## SHA-256 checksums:
 
-${fileListText}`
+### x64
+
+${x64Section}
+
+### ARM64
+
+${arm64Section}
+
+### ARM
+
+${armSection}`
 
   return draftReleaseNotes
 }
