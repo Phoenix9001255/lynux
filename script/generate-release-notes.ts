@@ -8,6 +8,11 @@ type ChecksumEntry = { filename: string; checksum: string }
 
 type ChecksumGroups = Record<'x64' | 'arm' | 'arm64', Array<ChecksumEntry>>
 
+type ReleaseNotesGroups = Record<
+  'new' | 'added' | 'fixed' | 'improved' | 'removed',
+  Array<string>
+>
+
 // 3 architectures * 3 package formats * 2 files (package + checksum file)
 const SUCCESSFUL_RELEASE_FILE_COUNT = 3 * 3 * 2
 
@@ -71,11 +76,20 @@ const shaEntriesByArchitecture: ChecksumGroups = {
   ),
 }
 
+// TODO: populate these from changelog if version matches convention
+const releaseNotesByGroup: ReleaseNotesGroups = {
+  new: [],
+  added: [],
+  fixed: [],
+  improved: [],
+  removed: [],
+}
+
 console.log(`Found ${countFiles} files in artifacts directory`)
 console.log(shaEntriesByArchitecture)
 
 const draftReleaseNotes = generateDraftReleaseNotes(
-  [],
+  releaseNotesByGroup,
   shaEntriesByArchitecture
 )
 const releaseNotesPath = __dirname + '/release_notes.txt'
@@ -99,42 +113,71 @@ function getShaContents(filePath: string): {
   return { filename, checksum }
 }
 
+function formatReleaseNote(note: string): string {
+  return ` - ${note}`
+}
+
+function renderSection(
+  name: string,
+  items: Array<string>,
+  omitIfEmpty: boolean = true
+): string {
+  if (items.length === 0 && omitIfEmpty) {
+    return ''
+  }
+
+  const itemsText =
+    items.length === 0 ? 'TODO' : items.map(formatReleaseNote).join('\n')
+
+  return `
+## ${name}
+
+${itemsText}
+  `
+}
+
 function formatEntry(e: ChecksumEntry): string {
   return `**${e.filename}**\n${e.checksum}\n`
+}
+
+function renderArchitectureIfNotEmpty(
+  name: string,
+  items: Array<ChecksumEntry>
+): string {
+  if (items.length === 0) {
+    return ''
+  }
+
+  const itemsText = items.map(formatEntry).join('\n')
+
+  return `
+  
+## ${name}
+
+${itemsText}
+  
+  `
 }
 
 /**
  * Takes the release notes entries and the SHA entries, then merges them into the full draft release notes ✨
  */
 function generateDraftReleaseNotes(
-  releaseNotesEntries: Array<string>,
+  releaseNotesGroups: ReleaseNotesGroups,
   shaEntries: ChecksumGroups
 ): string {
-  const changelogText = releaseNotesEntries.join('\n')
-
-  const x64Section = shaEntries.x64.map(formatEntry).join('\n')
-  const armSection = shaEntries.arm.map(formatEntry).join('\n')
-  const arm64Section = shaEntries.arm64.map(formatEntry).join('\n')
-
-  const draftReleaseNotes = `${changelogText}
-
-## Fixes and improvements
-
-TODO
+  const draftReleaseNotes = `
+${renderSection('New', releaseNotesGroups.new)}
+${renderSection('Added', releaseNotesGroups.added)}
+${renderSection('Fixed', releaseNotesGroups.fixed, false)}
+${renderSection('Improved', releaseNotesGroups.improved, false)}
+${renderSection('Removed', releaseNotesGroups.removed)}
 
 ## SHA-256 checksums
 
-### x64
-
-${x64Section}
-
-### ARM64
-
-${arm64Section}
-
-### ARM
-
-${armSection}`
+${renderArchitectureIfNotEmpty('x64', shaEntries.x64)}
+${renderArchitectureIfNotEmpty('ARM64', shaEntries.arm64)}
+${renderArchitectureIfNotEmpty('ARM', shaEntries.arm)}`
 
   return draftReleaseNotes
 }
