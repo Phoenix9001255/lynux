@@ -8,10 +8,15 @@ type ChecksumEntry = { filename: string; checksum: string }
 
 type ChecksumGroups = Record<'x64' | 'arm' | 'arm64', Array<ChecksumEntry>>
 
-type ReleaseNotesGroups = Record<
-  'new' | 'added' | 'fixed' | 'improved' | 'removed',
-  Array<string>
->
+type ReleaseNotesGroupType = 'new' | 'added' | 'fixed' | 'improved' | 'removed'
+
+type ReleaseNotesGroups = Record<ReleaseNotesGroupType, Array<ReleaseNoteEntry>>
+
+type ReleaseNoteEntry = {
+  text: string
+  ids: Array<number>
+  contributor?: string
+}
 
 // 3 architectures * 3 package formats * 2 files (package + checksum file)
 const SUCCESSFUL_RELEASE_FILE_COUNT = 3 * 3 * 2
@@ -123,6 +128,20 @@ function extractIds(str: string): Array<number> {
   return idArray
 }
 
+function parseCategory(str: string): ReleaseNotesGroupType | null {
+  const input = str.toLocaleLowerCase()
+  switch (input) {
+    case 'added':
+    case 'fixed':
+    case 'improved':
+    case 'new':
+    case 'removed':
+      return input
+    default:
+      return null
+  }
+}
+
 function getReleaseGroups(version: string): ReleaseNotesGroups {
   if (!version.endsWith('-linux1')) {
     return {
@@ -149,7 +168,7 @@ function getReleaseGroups(version: string): ReleaseNotesGroups {
     process.exit(1)
   }
 
-  console.log(`got release notes`, changelogForVersion)
+  console.log(`found release notes`, changelogForVersion)
 
   const releaseNotesByGroup: ReleaseNotesGroups = {
     new: [],
@@ -163,24 +182,38 @@ function getReleaseGroups(version: string): ReleaseNotesGroups {
   const releaseEntryRegex = /\[(.*)\](.*)- (.*)/
 
   for (const entry of changelogForVersion) {
-    console.log(`parsing entry: '${entry}'`)
-
     const externalMatch = releaseEntryExternalContributor.exec(entry)
     if (externalMatch) {
-      const category = externalMatch[1]
+      const category = parseCategory(externalMatch[1])
       const text = externalMatch[2].trim()
       const ids = extractIds(externalMatch[3])
-      const author = externalMatch[4]
-      console.log(`got match`, { category, text, ids, author })
+      const contributor = externalMatch[4]
+
+      if (!category) {
+        console.warn(`unable to identify category for '${entry}'`)
+      } else {
+        releaseNotesByGroup[category].push({
+          text,
+          ids,
+          contributor,
+        })
+      }
     } else {
       const match = releaseEntryRegex.exec(entry)
       if (match) {
-        const category = match[1]
+        const category = parseCategory(match[1])
         const text = match[2].trim()
         const ids = extractIds(match[3])
-        console.log(`got match`, { category, text, ids })
+        if (!category) {
+          console.warn(`unable to identify category for '${entry}'`)
+        } else {
+          releaseNotesByGroup[category].push({
+            text,
+            ids,
+          })
+        }
       } else {
-        console.warn(`release entry does not match format: '${entry}'`)
+        console.warn(`release entry does not match any format: '${entry}'`)
       }
     }
   }
@@ -188,13 +221,22 @@ function getReleaseGroups(version: string): ReleaseNotesGroups {
   return releaseNotesByGroup
 }
 
-function formatReleaseNote(note: string): string {
-  return ` - ${note}`
+function formatReleaseNote(note: ReleaseNoteEntry): string {
+  const idsAsUrls = note.ids
+    .map(id => `https://github.com/desktop/desktop/issues/${id}`)
+    .join(' ')
+  const contributorNote = note.contributor
+    ? `. Thanks ${note.contributor}!`
+    : ''
+
+  const template = ` - ${note.text} - ${idsAsUrls}${contributorNote}`
+
+  return template.trim()
 }
 
 function renderSection(
   name: string,
-  items: Array<string>,
+  items: Array<ReleaseNoteEntry>,
   omitIfEmpty: boolean = true
 ): string {
   if (items.length === 0 && omitIfEmpty) {
@@ -230,7 +272,6 @@ function renderArchitectureIfNotEmpty(
 ## ${name}
 
 ${itemsText}
-  
   `
 }
 
