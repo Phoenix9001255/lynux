@@ -44,7 +44,7 @@ const shaEntriesByArchitecture: ChecksumGroups = {
   ),
   arm: shaEntries.filter(
     e =>
-      e.filename.includes('-linux-armv71-') ||
+      e.filename.includes('-linux-armv7l-') ||
       e.filename.includes('-linux-armhf-')
   ),
   arm64: shaEntries.filter(
