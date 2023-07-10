@@ -118,7 +118,11 @@ function generateDraftReleaseNotes(
 
   const draftReleaseNotes = `${changelogText}
 
-## SHA-256 checksums:
+## Fixes and improvements
+
+TODO
+
+## SHA-256 checksums
 
 ### x64
 
