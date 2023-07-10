@@ -1,6 +1,6 @@
-import * as glob from 'glob'
-import { basename } from 'path'
-import * as fs from 'fs'
+const glob = require('glob')
+const { basename } = require('path')
+const fs = require('fs')
 
 // eslint-disable-next-line no-sync
 const Glob = glob.GlobSync
