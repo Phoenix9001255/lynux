@@ -1,7 +1,7 @@
 /* eslint-disable no-sync */
 
 const glob = require('glob')
-const { basename } = require('path')
+const { basename, dirname, join } = require('path')
 const fs = require('fs')
 
 type ChecksumEntry = { filename: string; checksum: string }
@@ -76,23 +76,16 @@ const shaEntriesByArchitecture: ChecksumGroups = {
   ),
 }
 
-// TODO: populate these from changelog if version matches convention
-const releaseNotesByGroup: ReleaseNotesGroups = {
-  new: [],
-  added: [],
-  fixed: [],
-  improved: [],
-  removed: [],
-}
-
 console.log(`Found ${countFiles} files in artifacts directory`)
 console.log(shaEntriesByArchitecture)
+
+const releaseNotesByGroup = getReleaseGroups(releaseTagWithoutPrefix)
 
 const draftReleaseNotes = generateDraftReleaseNotes(
   releaseNotesByGroup,
   shaEntriesByArchitecture
 )
-const releaseNotesPath = __dirname + '/release_notes.txt'
+const releaseNotesPath = join(__dirname, 'release_notes.txt')
 
 fs.writeFileSync(releaseNotesPath, draftReleaseNotes, { encoding: 'utf8' })
 
@@ -111,6 +104,88 @@ function getShaContents(filePath: string): {
   const checksum = fs.readFileSync(filePath, 'utf8')
 
   return { filename, checksum }
+}
+
+function extractIds(str: string): Array<number> {
+  const idRegex = /#(\d+)/g
+
+  const idArray = new Array<number>()
+  let match
+
+  while ((match = idRegex.exec(str))) {
+    const textValue = match[1].trim()
+    const numValue = parseInt(textValue, 10)
+    if (!isNaN(numValue)) {
+      idArray.push(numValue)
+    }
+  }
+
+  return idArray
+}
+
+function getReleaseGroups(version: string): ReleaseNotesGroups {
+  if (!version.endsWith('-linux1')) {
+    return {
+      new: [],
+      added: [],
+      fixed: [],
+      improved: [],
+      removed: [],
+    }
+  }
+
+  const upstreamVersion = version.replace('-linux1', '')
+  const rootDir = dirname(__dirname)
+  const changelogFile = fs.readFileSync(join(rootDir, 'changelog.json'))
+  const changelogJson = JSON.parse(changelogFile)
+  const releases = changelogJson['releases']
+  const changelogForVersion: Array<string> | undefined =
+    releases[upstreamVersion]
+
+  if (!changelogForVersion) {
+    console.error(
+      `🔴 Changelog version ${upstreamVersion} not found in changelog.json, which is required for publishing a release based off an upstream releease. Aborting...`
+    )
+    process.exit(1)
+  }
+
+  console.log(`got release notes`, changelogForVersion)
+
+  const releaseNotesByGroup: ReleaseNotesGroups = {
+    new: [],
+    added: [],
+    fixed: [],
+    improved: [],
+    removed: [],
+  }
+
+  const releaseEntryExternalContributor = /\[(.*)\](.*)- (.*)\. Thanks (.*)!/
+  const releaseEntryRegex = /\[(.*)\](.*)- (.*)/
+
+  for (const entry of changelogForVersion) {
+    console.log(`parsing entry: '${entry}'`)
+
+    const externalMatch = releaseEntryExternalContributor.exec(entry)
+    if (externalMatch) {
+      const category = externalMatch[1]
+      const text = externalMatch[2].trim()
+      const ids = extractIds(externalMatch[3])
+      const author = externalMatch[4]
+      console.log(`got match`, { category, text, ids, author })
+    } else {
+      const match = releaseEntryRegex.exec(entry)
+      if (match) {
+        const category = match[1]
+        const text = match[2].trim()
+        const ids = extractIds(match[3])
+        console.log(`got match`, { category, text, ids })
+      } else {
+        console.warn(`release entry does not match format: '${entry}'`)
+      }
+    }
+  }
+
+  return releaseNotesByGroup
 }
 
 function formatReleaseNote(note: string): string {
