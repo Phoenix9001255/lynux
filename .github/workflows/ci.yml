@@ -252,15 +252,12 @@ jobs:
           echo "---"
           cat ${RELEASE_NOTES_FILE}
           echo "---"
-          echo 'LINUX_RELEASE_NOTES<<EOF' >> $GITHUB_ENV
-          cat ${LINUX_RELEASE_NOTES} >> $GITHUB_ENV
-          echo 'EOF' >> $GITHUB_ENV
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        release_name: GitHub Desktop for Linux ${{ env.RELEASE_TAG_WITHOUT_PREFIX }}
-        body: ${{ env.LINUX_RELEASE_NOTES }}
         with:
+          name: GitHub Desktop for Linux ${{ env.RELEASE_TAG_WITHOUT_PREFIX }}
+          body_path: script/release_notes.txt
           files: |
             artifacts/*.AppImage
             artifacts/*.deb
