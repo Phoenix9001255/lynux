@@ -8,7 +8,7 @@ type ChecksumEntry = { filename: string; checksum: string }
 
 type ChecksumGroups = Record<'x64' | 'arm' | 'arm64', Array<ChecksumEntry>>
 
-// 3 architectures * 3 package formats * 2 files (package + checksum file) 
+// 3 architectures * 3 package formats * 2 files (package + checksum file)
 const SUCCESSFUL_RELEASE_FILE_COUNT = 3 * 3 * 2
 
 const Glob = glob.GlobSync
@@ -37,15 +37,30 @@ if (SUCCESSFUL_RELEASE_FILE_COUNT !== countFiles) {
 }
 
 const shaEntriesByArchitecture: ChecksumGroups = {
-  x64: shaEntries.filter(e => e.filename.includes("-linux-x86_64-") || e.filename.includes("-linux-amd64-")),
-  arm: shaEntries.filter(e => e.filename.includes("-linux-armv71-") || e.filename.includes("-linux-armhf-")),
-  arm64: shaEntries.filter(e => e.filename.includes("-linux-aarch64-") || e.filename.includes("-linux-arm64-"))
+  x64: shaEntries.filter(
+    e =>
+      e.filename.includes('-linux-x86_64-') ||
+      e.filename.includes('-linux-amd64-')
+  ),
+  arm: shaEntries.filter(
+    e =>
+      e.filename.includes('-linux-armv71-') ||
+      e.filename.includes('-linux-armhf-')
+  ),
+  arm64: shaEntries.filter(
+    e =>
+      e.filename.includes('-linux-aarch64-') ||
+      e.filename.includes('-linux-arm64-')
+  ),
 }
 
 console.log(`Found ${countFiles} files in artifacts directory`)
 console.log(shaEntriesByArchitecture)
 
-const draftReleaseNotes = generateDraftReleaseNotes([], shaEntriesByArchitecture)
+const draftReleaseNotes = generateDraftReleaseNotes(
+  [],
+  shaEntriesByArchitecture
+)
 const releaseNotesPath = __dirname + '/release_notes.txt'
 
 fs.writeFileSync(releaseNotesPath, draftReleaseNotes, { encoding: 'utf8' })
@@ -80,9 +95,9 @@ function generateDraftReleaseNotes(
 ): string {
   const changelogText = releaseNotesEntries.join('\n')
 
-  const x64Section = shaEntries.x64.map(formatEntry).join('\n');
-  const armSection = shaEntries.arm.map(formatEntry).join('\n');
-  const arm64Section = shaEntries.arm64.map(formatEntry).join('\n');
+  const x64Section = shaEntries.x64.map(formatEntry).join('\n')
+  const armSection = shaEntries.arm.map(formatEntry).join('\n')
+  const arm64Section = shaEntries.arm64.map(formatEntry).join('\n')
 
   const draftReleaseNotes = `${changelogText}
 
