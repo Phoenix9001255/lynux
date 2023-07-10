@@ -29,7 +29,9 @@ if (!releaseTagWithoutPrefix) {
   process.exit(1)
 }
 
-console.log(`Preparing release notes for release tag ${releaseTagWithoutPrefix}`)
+console.log(
+  `Preparing release notes for release tag ${releaseTagWithoutPrefix}`
+)
 
 const files = new Glob(artifactsDir + '/**/*', { nodir: true })
 
