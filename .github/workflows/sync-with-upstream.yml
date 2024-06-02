@@ -15,8 +15,22 @@ jobs:
           git config --global user.email "github@brendanforster.com"
           git remote add upstream https://github.com/desktop/desktop.git
         shell: bash
-      - name: Fetch and merge
-        id: fetch-merge
+      - name: Push development changes from upstream to fork
+        id: sync-development-branch
         run: |
-          git fetch upstream
+          git fetch upstream development
+          git fetch origin development
+          git checkout -b development upstream/development
+          git push origin development
         shell: bash
+      - name: Rebase Linux customizations on top of development branch
+        id: rebase-linux-branch
+        run: |
+          git fetch origin linux
+          git checkout linux
+          git log development...linux --oneline --reverse
+          git rebase development linux
+          git status
+          git log development...linux --oneline --reverse
+        shell: bash
+        # TODO: force push this when we're confident that the rebase has succeeded?
