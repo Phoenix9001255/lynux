@@ -1,6 +1,6 @@
 name: 'Sync main branch with upstream'
 
-on: workflow_run
+on: workflow_dispatch
 
 jobs:
   sync-with-upstream:
