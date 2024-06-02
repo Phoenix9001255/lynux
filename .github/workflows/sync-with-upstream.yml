@@ -1,0 +1,22 @@
+name: 'Sync main branch with upstream'
+
+on: workflow_dispatch
+
+jobs:
+  sync-with-upstream:
+    runs-on: ubuntu-latest
+    name: Sync main branch with upstream
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure git
+        run: |
+          git config --global user.name "shiftbot"
+          git config --global user.email "github@brendanforster.com"
+          git remote add upstream https://github.com/desktop/desktop.git
+        shell: bash
+      - name: Fetch and merge
+        id: fetch-merge
+        run: |
+          git fetch upstream
+        shell: bash
