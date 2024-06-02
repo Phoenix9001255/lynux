@@ -5,7 +5,7 @@ on: workflow_dispatch
 jobs:
   sync-with-upstream:
     runs-on: ubuntu-latest
-    name: Sync main branch with upstream 
+    name: Sync main branch with upstream
     steps:
       - name: Checkout
         uses: actions/checkout@v4
