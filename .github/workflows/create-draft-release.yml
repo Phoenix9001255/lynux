@@ -1,0 +1,50 @@
+name: 'Create draft release from upstream'
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: 'Upstream release'
+        required: true
+        type: string
+      publish:
+        description: 'Whether to publish the release to GitHub on success'
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  publish-draft-release:
+    runs-on: ubuntu-latest
+    name: Publish draft release
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Configure git
+        run: |
+          git config --global user.name "shiftbot"
+          git config --global user.email "github@brendanforster.com"
+          git remote add upstream https://github.com/desktop/desktop.git
+        shell: bash
+      - name: Create baseline branch on fork
+        id: create-baseline-branch
+        env:
+          RELEASE_TAG: ${{ inputs.release }}
+          BASE_BRANCH: 'linux-${{ inputs.release }}'
+        run: |
+          git fetch upstream
+          git checkout -b $BASE_BRANCH $RELEASE_TAG
+          git push origin $BASE_BRANCH
+        shell: bash
+      - name: Rebase Linux customizations on top of upstream release branch
+        id: rebase-linux-branch
+        env:
+          HEAD_BRANCH: 'apply-changes-${{ inputs.release }}'
+          BASE_BRANCH: 'linux-${{ inputs.release }}'
+        run: |
+          git fetch origin linux
+          git checkout -b $HEAD_BRANCH linux
+          git submodule update
+          git rebase --onto $BASE_BRANCH development $HEAD_BRANCH
+          git push origin $HEAD_BRANCH
+        shell: bash
