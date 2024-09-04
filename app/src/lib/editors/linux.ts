@@ -212,6 +212,10 @@ const editors: ILinuxExternalEditor[] = [
       '/usr/bin/zed',
     ],
   },
+  {
+    name: 'Helix',
+    paths: ['/usr/bin/hx'],
+  },
 ]
 
 async function getAvailablePath(paths: string[]): Promise<string | null> {
