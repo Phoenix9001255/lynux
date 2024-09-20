@@ -235,7 +235,10 @@ export function launch(
     case Shell.Warp:
       return spawn(foundShell.path, [], { cwd: path })
     case Shell.Ptyxis:
-      return spawn(foundShell.path, ['--new-window', '--working-directory=' + path])
+      return spawn(foundShell.path, [
+        '--new-window',
+        '--working-directory=' + path,
+      ])
     default:
       return assertNever(shell, `Unknown shell: ${shell}`)
   }
