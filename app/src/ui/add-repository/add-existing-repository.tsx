@@ -16,7 +16,6 @@ import { showOpenDialog } from '../main-process-proxy'
 import { Ref } from '../lib/ref'
 import { InputError } from '../lib/input-description/input-error'
 import { IAccessibleMessage } from '../../models/accessible-message'
-import { isGitRepository } from './create-repository'
 
 interface IAddExistingRepositoryProps {
   readonly dispatcher: Dispatcher
@@ -254,9 +253,21 @@ export class AddExistingRepository extends React.Component<
   }
 
   private onPathChanged = async (path: string) => {
-    const isRepository = await isGitRepository(this.resolvedPath(path))
+    const type = await getRepositoryType(this.resolvedPath(path))
 
-    this.setState({ path, isRepository })
+    const isRepository = type.kind !== 'missing' && type.kind !== 'unsafe'
+    const isRepositoryUnsafe = type.kind === 'unsafe'
+    const isRepositoryBare = type.kind === 'bare'
+    const showNonGitRepositoryWarning = !isRepository || isRepositoryBare
+    const repositoryUnsafePath = type.kind === 'unsafe' ? type.path : undefined
+
+    this.setState({
+      path,
+      isRepositoryUnsafe,
+      isRepositoryBare,
+      showNonGitRepositoryWarning,
+      repositoryUnsafePath,
+    })
   }
 
   private showFilePicker = async () => {
