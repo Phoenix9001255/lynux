@@ -477,10 +477,10 @@ focus-trap@^6.1.0:
   dependencies:
     tabbable "^5.1.0"
 
-fs-admin-forked@^0.22.3:
-  version "0.22.3"
-  resolved "https://registry.yarnpkg.com/fs-admin-forked/-/fs-admin-forked-0.22.3.tgz#405418347d5262c8be40b37faf186ff05e6cdfae"
-  integrity sha512-vpNwGEfqZfbYdz57zZcibZ30Pifjtf8//2tJqjacyK/ziLnwvuBtahyxtsxg7B3HK/atkjzHE9KF6i5iAZWqgw==
+fs-admin-forked@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/fs-admin-forked/-/fs-admin-forked-0.23.0.tgz#4fcdf64a2d7758a52c67bbc87b1ff7a592ff6803"
+  integrity sha512-1sFLqKsArQPtzEcMys8vsxDod0hVi5Q2Vsev2h+UZ7vXTQz++mUe01uHkS+r9Yj0zjLT0Dwefv3c5a1dCAW7xg==
   dependencies:
     node-addon-api "^8.3.0"
     prebuild-install "^7.1.3"
