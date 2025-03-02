@@ -242,7 +242,6 @@ if (__DARWIN__) {
 async function handleCommandLineArguments(argv: string[]) {
   const args = parseCommandLineArgs(argv)
 
-  // TODO(@shiftkey): review command line argument handling and test locally, confirming things work as expected
   // TODO(@shiftkey): see if we can convert this area to use args shape
 
   // Desktop registers it's protocol handler callback on Windows as
